@@ -8,7 +8,7 @@ import Npc.*;
 import Item.*;
 
 /**
- * Mapa
+ * Tabuleiro: Simula o mapa do jogo e faz as ações do tabuleiro
  */
 public class Tabuleiro {
     private ArrayList<ArrayList<Elemento>> mapa = new ArrayList<>();

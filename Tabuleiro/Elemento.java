@@ -1,6 +1,6 @@
 package Tabuleiro;
 
 /**
- * Elemento
+ * Elemento: Classe de marcação dos elementos que vão estar no tabuleiro
  */
 public interface Elemento {}
