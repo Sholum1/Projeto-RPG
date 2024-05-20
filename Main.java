@@ -29,20 +29,17 @@ public class Main {
 	    lua1.dialogo();
 	    while (jogando) {
 		tabuleiro.mostraMapa();
-		opcao = scan.nextLine();
-		tabuleiro.moverPersonagem(opcao, giu);
 		boolean perto = tabuleiro.interagir(giu, lua1);
+		opcao = scan.nextLine();
 		if(perto) {
-		    opcao = scan.nextLine();
 		    if (opcao.equals("i")) {
 			LuaTutorial2 lua2 = new LuaTutorial4();
 			lua2.dialogo();
 			jogando = false;
 			break;
-		    } else {
-			continue;
 		    }
 		}
+		tabuleiro.moverPersonagem(opcao, giu);
 	    }
 	}
 	scan.close();
