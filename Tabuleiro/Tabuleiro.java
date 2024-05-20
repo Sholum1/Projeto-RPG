@@ -9,6 +9,7 @@ import Item.*;
 
 /**
  * Tabuleiro: Simula o mapa do jogo e faz as ações do tabuleiro
+ *
  */
 public class Tabuleiro {
     private ArrayList<ArrayList<Elemento>> mapa = new ArrayList<>();
@@ -99,20 +100,25 @@ public class Tabuleiro {
     // Vê a possibilidade de interagir com algo
     public boolean interagir(Personagem personagem, Elemento elem) {
 	int[] posPersonagem = achePosicao(personagem),
-	    posElem = achePosicao(elem);
-	for (int i = 0; i < 2; i++) {
-	    if (Math.abs(posPersonagem[i] - posElem[i]) == 1) {
-		if (elem instanceof Npc) {
-		    Npc npc = (Npc)elem;
-		    System.out.println("Pressione [i] para interagir com "
-				     + npc.getNome());
-		} else if (elem instanceof Item) {
-		    Item item = (Item)elem;
-		    System.out.println("Pressione [i] para colocar " +
-				     item.getNome() + "na mochila");
+	    posElem = achePosicao(elem),
+	    delta = {0, 1, -1};
 
+	for (int i = 0; i < 3; i++) {
+	    for (int j = 0; j < 3; j++) {
+		if (((posPersonagem[0] + delta[i]) == posElem[0]) &&
+		    (posPersonagem[1] + delta[j] == posElem[1])) {
+		    if (elem instanceof Npc) {
+			Npc npc = (Npc)elem;
+			System.out.println("Pressione [i] para interagir com "
+					   + npc.getNome());
+		    } else if (elem instanceof Item) {
+			Item item = (Item)elem;
+			System.out.println("Pressione [i] para colocar " +
+					   item.getNome() + "na mochila");
+
+		    }
+		    return true;
 		}
-		return true;
 	    }
 	}
 	return false;
@@ -121,36 +127,34 @@ public class Tabuleiro {
     // Move um elemento
     private void mover(int xObjetivo, int yObjetivo, int xOriginal,
 		       int yOriginal, Elemento elem) {
-	if ((xObjetivo < tamanho - 1 && xObjetivo > 0)
-	    && (yObjetivo < tamanho - 1 && yObjetivo > 0)) {
-	    mapa.get(xObjetivo).set(yObjetivo, elem);
-	    mapa.get(xOriginal).set(yOriginal, null);
+	if ((xObjetivo < getTamanho() && xObjetivo > 0)
+	    && (yObjetivo < getTamanho() && yObjetivo > 0)) {
+	    Elemento objetivo = mapa.get(xObjetivo).get(yObjetivo);
+	    if (objetivo == null) {
+		mapa.get(xObjetivo).set(yObjetivo, elem);
+		mapa.get(xOriginal).set(yOriginal, null);
+	    }
 	}
     }
 
     // Move a Giu
     public void moverPersonagem(String opcao, Personagem personagem) {
 	int[] pos = achePosicao(personagem);
-	if (opcao.equals("w")) {
-	    Elemento objetivo = mapa.get(pos[0] - 1).get(pos[1]);
-	    if (objetivo == null) {
-		mover(pos[0] - 1, pos[1], pos[0], pos[1], personagem);
-	    }
-	} else if (opcao.equals("s")) {
-	    Elemento objetivo = mapa.get(pos[0] + 1).get(pos[1]);
-	    if (objetivo == null) {
-		mover(pos[0] + 1, pos[1], pos[0], pos[1], personagem);
-	    }
-	} else if (opcao.equals("a")) {
-	    Elemento objetivo = mapa.get(pos[0]).get(pos[1] - 1);
-	    if (objetivo == null) {
-		mover(pos[0], pos[1] - 1, pos[0], pos[1], personagem);
-	    }
-	} else if (opcao.equals("d")) {
-	    Elemento objetivo = mapa.get(pos[0]).get(pos[1] + 1);
-	    if (objetivo == null) {
-		mover(pos[0], pos[1] + 1, pos[0], pos[1], personagem);
-	    }
+	switch (opcao) {
+	case "w":
+	    mover(pos[0] - 1, pos[1], pos[0], pos[1], personagem);
+	    break;
+	case "s":
+	    mover(pos[0] + 1, pos[1], pos[0], pos[1], personagem);
+	    break;
+	case "a":
+	    mover(pos[0], pos[1] - 1, pos[0], pos[1], personagem);
+	    break;
+	case "d":
+	    mover(pos[0], pos[1] + 1, pos[0], pos[1], personagem);
+	    break;
+	default:
+	    break;
 	}
     }
 }
