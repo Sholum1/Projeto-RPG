@@ -28,10 +28,10 @@ public class Main {
 	    boolean jogando = true;
 	    lua1.dialogo();
 	    while (jogando) {
-		boolean perto = tabuleiro.interagir(giu, lua1);
 		tabuleiro.mostraMapa();
 		opcao = scan.nextLine();
 		tabuleiro.moverPersonagem(opcao, giu);
+		boolean perto = tabuleiro.interagir(giu, lua1);
 		if(perto) {
 		    opcao = scan.nextLine();
 		    if (opcao.equals("i")) {
@@ -39,6 +39,8 @@ public class Main {
 			lua2.dialogo();
 			jogando = false;
 			break;
+		    } else {
+			continue;
 		    }
 		}
 	    }
