@@ -14,6 +14,9 @@ public class Raiz extends Item {
     public void consumir(Personagem personagem) {
         personagem.setEnergia(personagem.getEnergia() + 3);
         personagem.setFelicidade(personagem.getFelicidade() - 2);
+	System.out.println("Giu está com " + personagem.getEnergia() +
+			   " de energia e " + personagem.getFelicidade()
+			   + " de felicidade.");
     }
 
 }

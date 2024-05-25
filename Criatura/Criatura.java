@@ -2,9 +2,9 @@ package Criatura;
 
 import Item.*;
 import Personagem.*;
-import Tabuleiro.Elemento;
+import Tabuleiro.*;
 
-public class Criatura implements Elemento {
+public class Criatura implements TemVida {
     private Item drop;
     private int dano, vida;
     private final String nome;

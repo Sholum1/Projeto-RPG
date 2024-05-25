@@ -16,5 +16,5 @@ public abstract class Npc implements Elemento {
     }
 
     // Apresenta os diálogos do NPC
-    protected abstract void dialogo();
+    protected abstract void dialogo(int opcao);
 }

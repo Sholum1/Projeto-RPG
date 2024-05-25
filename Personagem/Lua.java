@@ -3,7 +3,7 @@ package Personagem;
 import Criatura.*;
 
 /**
- * Lua
+ * Lua: Classe que representa a Lua e suas fases
  */
 public class Lua {
     // A ideia é que conforme a fase a Lua possa refletir mais luz,
@@ -39,7 +39,6 @@ public class Lua {
     }
 
     private Fase fase;
-    private int tempoCiclo = 29;
 
     // Construtor da Lua
     public Lua(Fase fase) {
@@ -66,8 +65,8 @@ public class Lua {
 
     // A cada 29 ciclos do loop a fase troca (baseado nos 29 dias
     // para cada troca de fase)
-    public void mudaFase() {
-	if (tempoCiclo-- == 0) {
+    public void mudaFase(int tempo) {
+	if (tempo == 29) {
 	    if (getFase() == Fase.NOVA) {
 		setFase(Fase.CRESCENTE);
 	    } else if (getFase() == Fase.CRESCENTE) {
@@ -77,7 +76,7 @@ public class Lua {
 	    } else if (getFase() == Fase.MINGUANTE) {
 		setFase(Fase.NOVA);
 	    }
-	    this.tempoCiclo = 29;
+	    System.out.println("A lua mudou de fase para: "+getFase());
 	}
     }
 

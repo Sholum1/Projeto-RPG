@@ -2,9 +2,12 @@ package Personagem;
 
 import java.util.ArrayList;
 import Item.Item;
-import Tabuleiro.Elemento;
+import Tabuleiro.*;
 
-public class Personagem implements Elemento {
+/* Personagem: Representa o personagem
+ *
+ */
+public class Personagem implements TemVida {
     private final Lua lua;
     private int vida, energia, medo, felicidade;
     private final int dano;
@@ -62,19 +65,24 @@ public class Personagem implements Elemento {
     public void setMochila(ArrayList<Item> mochila) {
 	this.mochila = mochila;
     }
+
+    public boolean perdeu() {
+	return !(getVida() <= 0 || getEnergia() <= 0 || getFelicidade() <= 0
+		 || getMedo() >= 20);
+    }
+
     // Parte da Mochila
 
     // Confere se o item já existe na mochila e o adiciona ou aumenta seu número
     public void adicionarItem(Item item) {
+	if (getMochila().isEmpty() || !getMochila().contains(item))
+	    getMochila().add(item);
         for (Item i : getMochila()) {
             if (item == i) {
 		i.operaQuantidade('+');
 		System.out.println("Giu possui: " + item.getQuantidade()
-				   + item.getNome() + "s");
-	    } else {
-		getMochila().add(item);
-		System.out.println("Giu adicionou " + item.getQuantidade()
-				   + "na mochila");
+				   + " " + item.getNome() + "s");
+		break;
 	    }
 	}
     }
@@ -93,6 +101,7 @@ public class Personagem implements Elemento {
 		if (i.getQuantidade() == 0) {
 		    removerItem(item);
 		}
+		break;
 	    }
 	}
     }
@@ -100,9 +109,13 @@ public class Personagem implements Elemento {
     // Mostra os elementos da mochila e suas quantidades
     public void verMochila() {
         System.out.print("Dentro da mochila há: ");
-    for (Item i : getMochila()) {
-        System.out.print(i.getNome() + "[" + i.getQuantidade() + "], ");
-    }
+	for (Item i : getMochila()) {
+	    System.out.print(i.getNome() + " [" + i.getQuantidade() + "]");
+	    if (i != getMochila().getLast()) {
+		System.out.print(", ");
+	    }
+	}
+	System.out.println();
     }
 
 }
