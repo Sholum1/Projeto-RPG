@@ -53,7 +53,7 @@ public class LuaTutorial extends Npc {
 			       "uma alga, você pode come-la.");
 	    System.out.println("Lua: Você sentirá cansado mas recuperará vida");
 	    System.out.println("Lua: Todo item causa um efeito positivo e "
-			       + " um negativo, cuidado ao utilizá-los!");
+			       + "um negativo, cuidado ao utilizá-los!");
 	    System.out.println("Lua: Para conferir seus itens pressione [m].");
 	    System.out.println("Lua: Para utilizar um item pressione [u]" +
 			       " seguido de sua posição na mochila." +
