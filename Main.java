@@ -11,7 +11,10 @@ import Personagem.*;
  *
  */
 public class Main {
-    // Método para calcular a vida e mostrar na tela
+	/*
+
+	 * Método para calcular a vida e mostrar na tela
+	 */
     public static void calculaVida (TemVida elem) {
 	if (elem instanceof Criatura) {
 	    System.out.print(((Criatura)elem).getNome());
@@ -21,19 +24,31 @@ public class Main {
 	System.out.println(" está com " + elem.getVida() + " de vida");
     }
 
-    // Método para mostrar quando uma opção é inválida
+	/*
+
+	 * Método para mostrar quando uma opção é inválida
+	 */
     public static void err () {
 	System.err.println("Opção inválida, tente novamente");
     }
 
+
     public static void main(String[] args) {
 	boolean respInvalida = true;
+
 	Scanner scan = new Scanner(System.in);
+
 	System.out.println("\t\t   Afundando");
 	System.out.println("Bem vindo ao nosso jogo!");
+
+
 	while (respInvalida) {
+		boolean viva = true;
+		int dialogoLua = 1;
+
 	    System.out.println("Deseja iniciar o tutorial? [S/n]");
 	    String opcao = scan.nextLine();
+
 	    // Inicia o jogo
 	    if (opcao.equalsIgnoreCase("Sim") || opcao.equalsIgnoreCase("S")) {
 		ArrayList<Npc> npcs = new ArrayList<Npc>();
@@ -41,48 +56,57 @@ public class Main {
 		ArrayList<Item> itens = new ArrayList<Item>();
 		Tabuleiro tabuleiro = new Tabuleiro(8);
 		Personagem giu = new Personagem();
-		tabuleiro.adicionarElemento(giu, 4, 4);
 		LuaTutorial lua = new LuaTutorial();
+
+		tabuleiro.adicionarElemento(giu, 4, 4);
 		tabuleiro.adicionarElemento(lua, 3, 4);
+
 		npcs.add(lua);
-		boolean viva = true;
-		int dialogoLua = 1;
+
 		while (viva) {
-		    tabuleiro.mostraMapa();
-		    boolean pertoNpc = false, pertoItem = false;
+			boolean pertoNpc = false, pertoItem = false;
 		    Npc npc = null;
+			Item item = null;
+			
+		    tabuleiro.mostraMapa();
+
 		    for (Npc npcIterado : npcs) {
 			pertoNpc = tabuleiro.interagir(giu, npcIterado);
-			if (pertoNpc) {
+			if (pertoNpc) { // Caso dê para interagir com o NPC
 			    npc = npcIterado;
 			    break;
 			}
 		    }
-		    Item item = null;
+		    
 		    for (Item itemIterado : itens) {
 			pertoItem = tabuleiro.interagir(giu, itemIterado);
-			if (pertoItem) {
+			if (pertoItem) { // Caso dê para interagir com o item
 			    item = itemIterado;
 			    break;
 			}
 		    }
+
 		    opcao = scan.nextLine();
-		    if (opcao.equals("m")) {
+
+		    if (opcao.equals("m")) { // Ver itens da mochila
 			giu.verMochila();
 			opcao = scan.nextLine();
 		    }
-		    if (opcao.equals("u")) {
+		    if (opcao.equals("u")) { // Consumir item
 			boolean opcaoInvalida = true;
+
 			while(opcaoInvalida) {
 			    int pos = -1;
-			    if (scan.hasNextInt()) pos = scan.nextInt();
+
+			    if (scan.hasNextInt()) pos = scan.nextInt(); // Obter o item a ser consumido
 			    else opcao = scan.nextLine();
+
 			    if (pos <= giu.getMochila().size() && pos > 0) {
 				giu.consumirItem(giu.getMochila().get(pos - 1));
 				opcaoInvalida = false;
 				opcao = scan.nextLine();
 				break;
-			    } else if (opcao.equals("n")) {
+			    } else if (opcao.equals("n")) { // Desistir de usar um item
 				opcaoInvalida = false;
 				break;
 			    } else {
@@ -90,28 +114,36 @@ public class Main {
 			    }
 			}
 		    }
-		    if (item != null && opcao.equals(("p"))) {
+
+		    if (item != null && opcao.equals(("p"))) { // Adiciona o item na mochila
 			giu.adicionarItem(item);
 			tabuleiro.removerElemento(item);
 			itens.remove(item);
 		    }
+
 		    tabuleiro.moverPersonagem(opcao, giu);
-		    if (opcao.equals("l")) {
-			opcao = scan.nextLine();
+
+		    if (opcao.equals("l")) { // Atacar com a Lua
+			opcao = scan.nextLine(); // Obter a direção do ataque
 			Criatura criatura = tabuleiro.luaAtacar(opcao, giu);
-			if(criatura != null)
+
+			if (criatura != null)
 			    calculaVida(criatura);
 			giu.getLua().mudaFase(29);
 		    }
+
 		    for (Criatura criatura : criaturas) {
-			if (tabuleiro.interagir(giu, criatura)) {
-			    if(opcao.equals("j")) {
+			if (tabuleiro.interagir(giu, criatura)) { // Se for possível interagir com a criatura
+			    if(opcao.equals("j")) { // Atacar a criatura
 				tabuleiro.atacar(giu, criatura);
 				calculaVida(criatura);
 			    }
+
 			    tabuleiro.atacar(criatura, giu);
 			    calculaVida(giu);
-			    viva = giu.perdeu();
+
+			    viva = giu.perdeu(); // Confere se Giu está viva
+
 			    if (!viva) {
 				System.out.println("Você morreu");
 				break;
@@ -119,6 +151,7 @@ public class Main {
 			} else {
 			    tabuleiro.moverCriatura(criatura, giu);
 			}
+
 			if (criatura != null) {
 			    if (tabuleiro.faleceu(criatura)) {
 				System.out.println(criatura.getNome() +
@@ -132,26 +165,32 @@ public class Main {
 			    }
 			}
 		    }
+
 		    if (npc != null) {
 			if (npc.equals(lua) && opcao.equals("i")) {
 			    lua.dialogo(dialogoLua++);
 			    if (dialogoLua == 3) {
 				Alga alga = new Alga();
 				Criatura baiacu = new Criatura(alga, 2, 9, "Baiacu");
+
 				tabuleiro.removerElemento(lua);
 				npcs.remove(lua);
 				tabuleiro.adicionarElemento(baiacu, 7, 7);
 				criaturas.add(baiacu);
+
 			    } else if (dialogoLua == 4) {
-				Criatura polvo = new Criatura(20, 18, "polvo");
+				Criatura polvo = new Criatura(20, 18, "polvo"); // Polvo é um boss
+				
 				tabuleiro.mover(0, 4, giu);
 				tabuleiro.removerElemento(lua);
 				npcs.remove(lua);
 				tabuleiro.adicionarElemento(polvo, 7, 4);
 				criaturas.add(polvo);
+
 			    } else if (dialogoLua == 5) {
 				tabuleiro.removerElemento(lua);
 				npcs.remove(lua);
+				
 			    } else if (dialogoLua > 5) {
 				viva = false;
 				respInvalida = false;
@@ -169,7 +208,7 @@ public class Main {
 		}
 	    } else if (opcao.equalsIgnoreCase("Não")
 		       || opcao.equalsIgnoreCase("N")
-		       || opcao.equalsIgnoreCase("Nao")) {
+		       || opcao.equalsIgnoreCase("Nao")) { // Caso o usuário não queira ver o tutorial
 		respInvalida = false;
 		break;
 	    } else {
@@ -179,3 +218,4 @@ public class Main {
 	scan.close();
     }
 }
+

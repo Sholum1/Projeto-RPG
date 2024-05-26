@@ -4,8 +4,21 @@ import java.util.ArrayList;
 import Item.Item;
 import Tabuleiro.*;
 
-/* Personagem: Representa o personagem
- *
+
+/**
+ 
+ * A classe Personagem representa Giu, a protagonista da história, a qual será
+ * controlada pelo usuário durante o jogo.
+ * 
+ * Para que possa guardar os itens que encontra no mapa e drops de criaturas,
+ * leva consigo uma mochila, implementada aqui como um ArrayList de itens da
+ * classe Item.
+ * 
+ * Para acessar a mochila, há os métodos "adicionarItem", "removerItem",
+ * "consumirItem" e "verMochila".
+ * 
+ * Há também o método "perdeu", que verificará os atributos de Giu e retornará
+ * se o usuário perdeu o jogo ou não (ou seja, se Giu morreu ou está viva).
  */
 public class Personagem implements TemVida {
     private final Lua lua;
@@ -62,10 +75,13 @@ public class Personagem implements TemVida {
     public ArrayList<Item> getMochila() {
 	return mochila;
     }
+
+
     public void setMochila(ArrayList<Item> mochila) {
 	this.mochila = mochila;
     }
 
+    // Confere se Giu morreu
     public boolean perdeu() {
 	return !(getVida() <= 0 || getEnergia() <= 0 || getFelicidade() <= 0
 		 || getMedo() >= 20);

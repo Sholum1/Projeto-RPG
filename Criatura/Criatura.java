@@ -4,6 +4,17 @@ import Item.*;
 import Personagem.*;
 import Tabuleiro.*;
 
+
+/**
+
+ * A classe Criatura é utilizada para implementar e instanciar os monstros
+ * que tentarão atacar a personagem principal. Por esse motivo, tem o método
+ * "atacar" e o "confereMorte", sendo que o último verifica se a criatura já
+ * foi ou não derrotada.
+
+ * Cada criatura também pode liberar um item quando morre (drop), então há
+ * um método "confereDrop" para verifcar cada caso.
+ */
 public class Criatura implements TemVida {
     private Item drop;
     private int dano, vida;

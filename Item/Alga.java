@@ -2,6 +2,15 @@ package Item;
 
 import Personagem.Personagem;
 
+
+/**
+
+ * A classe Alga herda da classe abstrata Item, e o faz porque confere valores
+ * específicos de vida e energia à personagem principal ao ter um objeto nela
+ * instanciado consumido.
+ * 
+ * Para tal, sobrescreve o método "consumir".
+ */
 public class Alga extends Item {
 
     // Construtor

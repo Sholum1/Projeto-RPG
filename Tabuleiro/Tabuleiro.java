@@ -7,9 +7,29 @@ import Criatura.*;
 import Npc.*;
 import Item.*;
 
+
 /**
- * Tabuleiro: Simula o mapa do jogo e faz as ações do tabuleiro
- *
+
+ * Tabuleiro: Simula o mapa do jogo e faz as ações do tabuleiro.
+ * 
+ * O mapa é implementado como uma matriz quadrada de tamanho fixo já no
+ * construtor.
+ * 
+ * Apresenta métodos de adição e remoção de elementos, bem como o "mostrarMapa"
+ * para imprimir o tabuleiro na tela.
+ * 
+ * Quanto à movimentação, tem os métodos "mover", "moverCriatura" e
+ * "moverPersonagem", além do "achePosicao" para encontrar um elemento.
+ * 
+ * Caso encontre algo possível de se interagir, realiza-se a conferência através
+ * do método "interagir".
+ * 
+ * Para os ataques, têm os métodos "atacar", que se relaciona ao personagem,
+ * além de "faleceu" para conferir se Giu ou uma criatura estão vivos e "drop",
+ * que é acionado quando uma criatura morre.
+ * 
+ * Os métodos de ataque de Lua estão temporariamente implementados nessa classe,
+ * porém não pertencerão a ela na versão final do jogo.
  */
 public class Tabuleiro {
     private ArrayList<ArrayList<Elemento>> mapa = new ArrayList<>();
@@ -214,8 +234,11 @@ public class Tabuleiro {
 	return true;
     }
 
-    // Função onica para o tutorial, no jogo mesmos devemos usar o
-    // Lua.refletir()
+	/*
+
+	 * Função única para o tutorial, no jogo mesmo devemos usar o
+	 * Lua.refletir()
+	 */
     private boolean luaAtaque(Elemento elem, Lua lua) {
 	if (elem instanceof Criatura) {
 	    Criatura criatura = (Criatura)elem;
@@ -227,7 +250,7 @@ public class Tabuleiro {
     }
 
     // Ataca com a Lua, calculando a distância máxima e caso
-    // encontre uma criatura no caminho, atinge ela
+    // encontre uma criatura no caminho, atinge-a
     public Criatura luaAtacar(String opcao, Personagem personagem) {
 	int[] pos = achePosicao(personagem);
 	int xSinal = 0, ySinal = 0;

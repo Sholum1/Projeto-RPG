@@ -3,6 +3,15 @@ package Item;
 import Tabuleiro.Elemento;
 import Personagem.Personagem;
 
+
+/**
+
+ * A classe Item implementa todos os itens do jogo, por isso deve ser abstrata.
+ * 
+ * Conta com métodos para recalcular a quantidade de cada item que o jogador
+ * carrega consigo, além de um para consumi-los, o qual será sobrescrito nas
+ * classes que reimplementarem Item.
+ */
 public abstract class Item implements Elemento {
     private final String nome;
     private int quantidade;
